@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kabelo Maile — Web Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #1a1a1a;
+    --accent: #c8f542;
+    --accent2: #a8e020;
+    --text: #f0f0f0;
+    --muted: #888;
+    --border: #2a2a2a;
+    --card: #141414;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: padding 0.3s;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #0a0a0a !important;
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    font-weight: 600 !important;
+    color: #000 !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--accent2) !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.3;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(200,245,66,0.08) 0%, transparent 70%);
+    top: 50%;
+    right: -100px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(200,245,66,0.1);
+    border: 1px solid rgba(200,245,66,0.3);
+    color: var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  .hero-title .line2 { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0a;
+    padding: 0.9rem 2rem;
+    border-radius: 2rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); background: var(--accent2); }
+
+  .btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.9rem 2rem;
+    border-radius: 2rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    animation: fadeUp 0.6s ease 0.4s both;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: fadeUp 1s ease 0.8s both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollLine 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 6rem 4rem; }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    max-width: 500px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-photo-wrap {
+    position: relative;
+  }
+
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: var(--bg3);
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-photo-label {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.9rem;
+    letter-spacing: 0.05em;
+  }
+
+  .about-photo-corner {
+    position: absolute;
+    top: -1px; right: -1px;
+    width: 60px; height: 60px;
+    border-top: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+
+  .about-text h2 { margin-bottom: 1.5rem; }
+
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .tag {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.35rem 0.9rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── SKILLS ── */
+  #skills { max-width: 1200px; margin: 0 auto; padding: 6rem 4rem; }
+
+  .skills-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+
+  .skill-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  .skill-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+
+  .skill-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+  }
+
+  /* ── PROJECTS ── */
+  #projects {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 6rem 4rem;
+  }
+
+  .projects-header {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .project-preview {
+    height: 200px;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(20,20,20,0.8));
+  }
+
+  .project-preview-label {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+
+  .project-body { padding: 1.5rem; }
+
+  .project-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .stack-tag {
+    background: rgba(200,245,66,0.08);
+    border: 1px solid rgba(200,245,66,0.2);
+    color: var(--accent);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .project-links { display: flex; gap: 0.8rem; }
+
+  .project-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.03em;
+    padding: 0.45rem 1rem;
+    border-radius: 2rem;
+    transition: all 0.2s;
+  }
+
+  .link-live {
+    background: var(--accent);
+    color: #000;
+  }
+
+  .link-live:hover { background: var(--accent2); }
+
+  .link-code {
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .link-code:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── SERVICES ── */
+  #services { padding: 6rem 4rem; max-width: 1200px; margin: 0 auto; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--accent);
+    transition: height 0.3s;
+  }
+
+  .service-card:hover::before { height: 100%; }
+  .service-card:hover { border-color: var(--accent); }
+
+  .service-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+  .service-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .service-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── TESTIMONIAL ── */
+  #testimonials {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 6rem 4rem;
+    text-align: center;
+  }
+
+  .testimonial-wrap {
+    max-width: 700px;
+    margin: 3rem auto 0;
+  }
+
+  .quote-mark {
+    font-family: 'Syne', sans-serif;
+    font-size: 6rem;
+    line-height: 0.5;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    display: block;
+  }
+
+  .testimonial-text {
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-author {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .testimonial-role {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  /* ── CONTACT ── */
+  #contact { padding: 6rem 4rem; }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .contact-info h2 { margin-bottom: 1rem; }
+  .contact-info p { color: var(--muted); font-weight: 300; line-height: 1.8; margin-bottom: 2rem; }
+
+  .contact-methods { display: flex; flex-direction: column; gap: 1rem; }
+
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.2s;
+    font-size: 0.9rem;
+  }
+
+  .contact-method:hover { border-color: var(--accent); }
+
+  .contact-method-icon { font-size: 1.2rem; }
+
+  .contact-method-text { font-weight: 500; }
+  .contact-method-label { font-size: 0.75rem; color: var(--muted); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .form-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-group input,
+  .form-group textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.85rem 1rem;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+    outline: none;
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--accent); }
+
+  .form-group textarea { min-height: 120px; }
+
+  .form-submit {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    align-self: flex-start;
+  }
+
+  .form-submit:hover { background: var(--accent2); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg2);
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-copy { font-size: 0.8rem; color: var(--muted); }
+
+  .footer-links { display: flex; gap: 1.5rem; }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero, section, #projects, #services, #testimonials, #contact, footer { padding: 4rem 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-stats { gap: 2rem; }
+    .projects-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  }
+
+  /* ── MOBILE NAV TOGGLE ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .nav-hamburger span {
+    width: 22px; height: 2px;
+    background: var(--text);
+    transition: 0.3s;
+  }
+
+  @media (max-width: 900px) {
+    .nav-hamburger { display: flex; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">KM<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a oneclick="openHireModal()" style="cursor:pointer;">Hire Me</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available for freelance work</div>
+    <h1 class="hero-title">
+      Kabelo Maile<br>
+      <span class="line2">Web Developer.</span>
+    </h1>
+    <p class="hero-sub">
+      I build fast, clean, and client-ready web experiences — from concept to deployment. Based in Johannesburg, working everywhere.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-secondary">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div>
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Years Building</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-photo-wrap reveal">
+      <div class="about-photo">
+        <img src="157735116.jpeg" alt="Kabelo Maile" style="width:100%; height:100%; object-fit:cover;">
+        <div class="about-photo-corner"></div>
+        <div class="about-photo-label">Johannesburg, ZA</div>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <div class="section-tag">About Me</div>
+      <h2 class="section-title">More than just a developer</h2>
+      <p>
+        I'm <strong>Kabelo Maile</strong>, a software engineering student at <strong>WeThinkCode_</strong> and freelance web developer based in Johannesburg. I build web products that are clean, fast, and actually work for the clients who need them.
+      </p>
+      <p>
+        My background spans <strong>web development, applied mathematics, graphic design, and systems thinking</strong> — which means I approach every project with both technical precision and an eye for design.
+      </p>
+      <p>
+        I work with small businesses, startups, and local organisations to bring their digital presence to life — from e-commerce platforms to full-stack web apps — deployed and production-ready.
+      </p>
+      <div class="about-tags">
+        <span class="tag">WeThinkCode_ Student</span>
+        <span class="tag">Freelance Developer</span>
+        <span class="tag">Johannesburg</span>
+        <span class="tag">Python</span>
+        <span class="tag">Firebase</span>
+        <span class="tag">Vercel</span>
+        <span class="tag">Java</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <div class="section-tag">Tech Stack</div>
+    <h2 class="section-title">What I work with</h2>
+  </div>
+  <br><br>
+  <div class="skills-grid reveal">
+    <div class="skill-card"><div class="skill-icon">🌐</div><div class="skill-name">HTML5</div></div>
+    <div class="skill-card"><div class="skill-icon">🎨</div><div class="skill-name">CSS3</div></div>
+    <div class="skill-card"><div class="skill-icon">⚡</div><div class="skill-name">JavaScript</div></div>
+    <div class="skill-card"><div class="skill-icon">🔥</div><div class="skill-name">Firebase</div></div>
+    <div class="skill-card"><div class="skill-icon">▲</div><div class="skill-name">Vercel</div></div>
+    <div class="skill-card"><div class="skill-icon">☕</div><div class="skill-name">Java</div></div>
+    <div class="skill-card"><div class="skill-icon">🐍</div><div class="skill-name">Python</div></div>
+    <div class="skill-card"><div class="skill-icon">🎭</div><div class="skill-name">Graphic Design</div></div>
+    <div class="skill-card"><div class="skill-icon">📱</div><div class="skill-name">Responsive Design</div></div>
+    <div class="skill-card"><div class="skill-icon">🔧</div><div class="skill-name">Git & GitHub</div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header reveal">
+    <div>
+      <div class="section-tag">Selected Work</div>
+      <h2 class="section-title">Projects I've built</h2>
+    </div>
+    <a href="https://github.com/Kayfalls" class="btn-secondary" target="_blank">View All on GitHub</a>
+  </div>
+
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-preview" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+        <img src="Screenshot from 2026-03-29 14-27-10.png" alt="Kabelo Maile" style="width:100%; height:100%; object-fit:cover;">
+        <div class="project-preview-label">Live Client</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Trophies & Badges</div>
+        <p class="project-desc">
+          A full e-commerce web app for a local Gauteng awards shop. Features product catalogue with category/subcategory filtering, Firebase authentication, and a customer-facing storefront — built and deployed to production.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">CSS</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">Firebase</span>
+          <span class="stack-tag">Vercel</span>
+        </div>
+        <div class="project-links">
+          <a href="https://trophiesandbadges.vercel.app" class="project-link link-live">Live Demo</a>
+          <a href="#" class="project-link link-code">View Code</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-preview" style="background: linear-gradient(135deg, #0a1628 0%, #1a3a5c 100%);">
+        <img src="Screenshot from 2026-04-11 01-10-26.png" alt="Kabelo Maile" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+      <div class="project-body">
+        <div class="project-title">Contact Us Demo</div>
+        <p class="project-desc">
+          A clean, responsive contact page UI built with vanilla HTML and CSS. A reusable component-style demo for client-facing web projects.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">CSS</span>
+        </div>
+        <div class="project-links">
+          <a href="https://contact-us-demo-kayfalls-projects.vercel.app" class="project-link link-live" target="_blank">Live Demo</a>
+          <a href="https://github.com/Kayfalls/Contact-Us-Demo" class="project-link link-code" target="_blank">View Code</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-preview" style="background: linear-gradient(135deg, #1a0a28 0%, #3a1a5c 100%);">
+        <img src="istockphoto-1432987984-612x612.jpg" alt="Kabelo Maile" style="width:100%; height:100%; object-fit:cover;">
+      </div>
+      <div class="project-body">
+        <div class="project-title">LocalHands</div>
+        <p class="project-desc">
+          A platform connecting local service providers with clients. Backend built with FastAPI and PostgreSQL on Ubuntu — an exploration into Python-based full-stack development.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">FastAPI</span>
+          <span class="stack-tag">PostgreSQL</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/Kayfalls/LocalHands" class="project-link link-code">View Code</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="reveal">
+    <div class="section-tag">What I Offer</div>
+    <h2 class="section-title">Services</h2>
+    <p class="section-desc">End-to-end web development for businesses that need a professional online presence, fast.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon">🖥️</div>
+      <div class="service-title">Web Design & Development</div>
+      <p class="service-desc">Custom websites built from scratch — responsive, fast-loading, and tailored to your brand and audience.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="service-icon">🛒</div>
+      <div class="service-title">E-Commerce Platforms</div>
+      <p class="service-desc">Product catalogues, customer auth, and order management — everything a small business needs to sell online.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="service-icon">🔥</div>
+      <div class="service-title">Firebase Integration</div>
+      <p class="service-desc">Real-time databases, user authentication, and cloud storage integrated seamlessly into your web app.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <div class="service-icon">🚀</div>
+      <div class="service-title">Deployment & Hosting</div>
+      <p class="service-desc">Your site live on Vercel with a custom domain, HTTPS, and optimised performance from day one.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">05</div>
+      <div class="service-icon">🏛️</div>
+      <div class="service-title">Government & Tender Projects</div>
+      <p class="service-desc">Professional web solutions for municipalities and public sector organisations — CMS-based, maintainable, compliant.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">06</div>
+      <div class="service-icon">🔧</div>
+      <div class="service-title">Maintenance & Support</div>
+      <p class="service-desc">Ongoing updates, bug fixes, and feature additions. Available on monthly retainer or per-project basis.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-tag reveal">Kind Words</div>
+  <h2 class="section-title reveal">What clients say</h2>
+  <div class="testimonial-wrap reveal">
+    <span class="quote-mark">"</span>
+    <p class="testimonial-text">
+      Working with Kabelo was seamless from start to finish. He understood exactly what our shop needed and delivered a professional, easy-to-use website that our customers love.
+    </p>
+    <div class="testimonial-author">Client Name Here</div>
+    <div class="testimonial-role">Owner — Awards & Engraving Shop, Gauteng</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="section-tag">Let's Talk</div>
+      <h2 class="section-title">Start a project</h2>
+      <p>
+        Have a website in mind? Need a developer for a tender submission? Or just want to explore what's possible — reach out and let's make it happen.
+      </p>
+      <div class="contact-methods">
+        <a href="mailto:kabelomaile73@gmail.com" class="contact-method">
+          <span class="contact-method-icon">✉️</span>
+          <div>
+            <div class="contact-method-text">kabelomaile73@gmail.com</div>
+            <div class="contact-method-label">Email</div>
+          </div>
+        </a>
+        <a href="https://wa.me/+27681821574" class="contact-method" target="_blank">
+          <span class="contact-method-icon">💬</span>
+          <div>
+            <div class="contact-method-text">WhatsApp Me</div>
+            <div class="contact-method-label">Quickest response</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/kabelo-maile-07945422b" class="contact-method" target="_blank">
+          <span class="contact-method-icon">💼</span>
+          <div>
+            <div class="contact-method-text">LinkedIn</div>
+            <div class="contact-method-label">Connect professionally</div>
+          </div>
+        </a>
+        <a href="https://github.com/Kayfalls" class="contact-method" target="_blank">
+          <span class="contact-method-icon">🐙</span>
+          <div>
+            <div class="contact-method-text">GitHub</div>
+            <div class="contact-method-label">See my code</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Thabo Nkosi">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="thabo@company.co.za">
+      </div>
+      <div class="form-group">
+        <label>What do you need?</label>
+        <input type="text" placeholder="e.g. E-commerce site for my business">
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell me more about your project..."></textarea>
+      </div>
+      <button class="form-submit">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">KM<span>.</span></div>
+  <div class="footer-copy">© 2026 Kabelo Maile. Built with 🏗️ in Johannesburg.</div>
+  <div class="footer-links">
+    <a href="https://github.com/Kayfalls" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/kabelo-maile-07945422b" target="_blank">LinkedIn</a>
+    <a href="https://wa.me/+27681821574" target="_blank">Contact</a>
+  </div>
+</footer>
+
+<!-- HIRE ME MODAL -->
+<div id="hireModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999; align-items:center; justify-content:center;">
+  <div style="background:#141414; border:1px solid #2a2a2a; border-radius:8px; padding:2.5rem; max-width:480px; width:90%; position:relative;">
+    <button onclick="closeHireModal()" style="position:absolute; top:1rem; right:1rem; background:none; border:none; color:#888; font-size:1.4rem; cursor:pointer;">✕</button>
+    <h3 style="font-family:'Syne',sans-serif; font-size:1.4rem; margin-bottom:0.5rem;">Work with Kabelo</h3>
+    <p style="color:#888; font-size:0.875rem; margin-bottom:2rem;">Download my documents or request them via email.</p>
+
+    <div style="display:flex; flex-direction:column; gap:0.75rem;">
+      <a href="Kabelo_Bongani_Maile_CV.pdf" download style="background:#c8f542; color:#000; padding:0.85rem 1.5rem; border-radius:2rem; font-family:'Syne',sans-serif; font-weight:700; font-size:0.875rem; text-align:center;">⬇ Download CV</a>
+      <a href="Kabelo_Maile_Cover_Letter.pdf" download style="background:#c8f542; color:#000; padding:0.85rem 1.5rem; border-radius:2rem; font-family:'Syne',sans-serif; font-weight:700; font-size:0.875rem; text-align:center;">⬇ Download Cover Letter</a>
+      <a href="Kabelo_Bongani_Maile_CV.pdf" download onclick="setTimeout(()=>{ let a=document.createElement('a'); a.href='Kabelo_Maile_Cover_Letter.pdf'; a.download=''; a.click(); },500)" style="border:1px solid #2a2a2a; color:#f0f0f0; padding:0.85rem 1.5rem; border-radius:2rem; font-family:'Syne',sans-serif; font-weight:600; font-size:0.875rem; text-align:center;">⬇ Download Both</a>
+     <a href="mailto:kabelomaile73@gmail.com?subject=Request%20for%20Documents&body=Hi%20Kabelo%2C%0D%0A%0D%0AI%20would%20like%20to%20request%20the%20following%3A%0D%0A%0D%0A%5B%20%5D%20CV%0D%0A%5B%20%5D%20Cover%20Letter%0D%0A%5B%20%5D%20Elevator%20Pitch%0D%0A%0D%0APlease%20send%20to%3A%20%5Byour%20email%5D%0D%0A%0D%0ARegards%2C%0D%0A%5BYour%20Name%5D" style="border:1px solid #2a2a2a; color:#888; padding:0.85rem 1.5rem; border-radius:2rem; font-family:'Syne',sans-serif; font-weight:600; font-size:0.875rem; text-align:center;">✉ Request via Email</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav shrink on scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').style.padding =
+      window.scrollY > 50 ? '0.8rem 4rem' : '1.2rem 4rem';
+  });
+
+  function openHireModal() {
+
+    const m = document.getElementById('hireModal');
+    m.style.display = 'flex';
+  }
+  function closeHireModal() {
+    document.getElementById('hireModal').style.display = 'none';
+  }
+  // Close if clicking outside the box
+  document.getElementById('hireModal').addEventListener('click', function(e) {
+    if (e.target === this) closeHireModal();
+  });
+
+  // Mobile menu placeholder
+  function toggleMenu() {
+    alert('Add a mobile menu here when deploying!');
+  }
+
+</script>
+
+</body>
+</html>
