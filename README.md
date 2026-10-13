@@ -1,48 +1,29 @@
-# Portfolio — Kabelo Maile
+# Welcome to your Lovable project
 
-A polished personal portfolio website for me, a freelance web developer and software engineering student based in Johannesburg.
+This project was built with [Lovable](https://lovable.dev).
 
-## Overview
+## Build with Lovable
 
-This repository contains a static portfolio website built with HTML, CSS, and JavaScript. The single-page design highlights the skills, selected projects, services, testimonials, and contact details.
+Open your project in the [Lovable editor](https://lovable.dev) and keep building.
 
-## Features
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
+- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
 
-- Responsive landing page with modern dark theme
-- Hero section with professional introduction and quick project/contact links
-- About section with personal background and skill highlights
-- Skills showcase using custom card components
-- Project gallery with live demo and code links
-- Services section with offerings for clients and brands
-- Contact section with email, WhatsApp, LinkedIn, and GitHub links
-- Interactive mobile menu and hire-me modal
-- Smooth scroll reveal animations and responsive layout
+## Development
 
-## Built With
+Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
-- HTML5
-- CSS3
-- JavaScript
-- Google Fonts
+```sh
+git clone <this-repository-url>
+cd <repository-name>
+npm i
+npm run dev
+```
 
-## Project Files
+## Built with
 
-- `index.html` — main portfolio page
-- `Kabelo_Bongani_Maile_CV.pdf` — downloadable CV
-- `Kabelo_Maile_Cover_Letter.pdf` — downloadable cover letter
-- `157735116.jpeg` — profile image asset
-- `Screenshot from 2026-03-29 14-27-10.png` — project screenshot
-- `Screenshot from 2026-04-11 01-10-26.png` — project screenshot
-- `istockphoto-1432987984-612x612.jpg` — project visual asset
-
-## How to Use
-
-1. Open `index.html` in a web browser.
-2. Or open the following link for best experience:
-    - https://port-kbm-olio.vercel.app
-
-## Contact
-
-- LinkedIn: https://www.linkedin.com/in/kabelo-maile-07945422b
-- GitHub: https://github.com/Kayfalls
-- WhatsApp: https://wa.me/+27681821574
+- TanStack Start
+- TypeScript
+- React
+- Tailwind CSS
